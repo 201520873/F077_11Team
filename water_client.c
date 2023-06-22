@@ -283,36 +283,36 @@ void *buzzer_thd() {
 }
 int main(int argc, char *argv[]) {
 	int sock;
-  struct sockaddr_in serv_addr;
-  int str_len;
+ 	struct sockaddr_in serv_addr;
+	int str_len;
 
-  if(argc!=3){
-    printf("Usage : %s <IP> <port>\n",argv[0]);
-    exit(1);
-  }
+  	if(argc!=3){
+    		printf("Usage : %s <IP> <port>\n",argv[0]);
+    		exit(1);
+  	}
 
 	if (-1 == PWMExport(PWM))
-    return(1);
-  usleep(100000);
-  if (-1 == PWMWritePeriod(PWM,2000000))
-    return(2);
-  if (-1 == PWMWriteDutyCycle(PWM,0))
+    		return(1);
+  	usleep(100000);
+  	if (-1 == PWMWritePeriod(PWM,2000000))
+    		return(2);
+  	if (-1 == PWMWriteDutyCycle(PWM,0))
 		return(3);
-  if (-1 == PWMEnable(PWM))
+  	if (-1 == PWMEnable(PWM))
 		return(4);
 
 	if (-1 == GPIOExport(POUT) || -1 == GPIOExport(PIN) || -1 == GPIOExport(POUT2))
 		return(1);
-  usleep(100000);
+  	usleep(100000);
 	if (-1 == GPIODirection(POUT, OUT) || -1 == GPIODirection(PIN, IN) || GPIODirection(POUT2, OUT))
 		return(2);
 	if (-1 == GPIOWrite(POUT, OUT) || -1 == GPIOWrite(POUT2, OUT))
-    return(3);
-  usleep(10000);
+    		return(3);
+  	usleep(10000);
 
 	sock = socket(PF_INET, SOCK_STREAM, 0);
-    if(sock == -1)
-        error_handling("socket() error");
+    	if(sock == -1)
+        	error_handling("socket() error");
 	memset(&serv_addr, 0, sizeof(serv_addr));
 	serv_addr.sin_family = AF_INET;
 	serv_addr.sin_addr.s_addr = inet_addr(argv[1]);
@@ -349,11 +349,11 @@ int main(int argc, char *argv[]) {
 		pthread_join(p_thread[0], (void**)&status);
 		usleep(5000);
 	} 
-  close(sock);
-  if (-1 == PWMUnexport(PWM))
-    return(8);
-  if (-1 == GPIOUnexport(POUT) || -1 == GPIOUnexport(PIN) || GPIOUnexport(POUT2))
+	close(sock);
+	if (-1 == PWMUnexport(PWM))
+		return(8);
+	if (-1 == GPIOUnexport(POUT) || -1 == GPIOUnexport(PIN) || GPIOUnexport(POUT2))
 		return(4);   
-  return(0);
+	return(0);
 }
 
