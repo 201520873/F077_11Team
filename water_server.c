@@ -138,22 +138,22 @@ int main(int argc, char *argv[]) {
     usleep(10000);
    
     if(argc!=2){
-      printf("Usage : %s <port>\n",argv[0]);
+	    printf("Usage : %s <port>\n",argv[0]);
     }
     serv_sock = socket(PF_INET, SOCK_STREAM, 0);
     if(serv_sock == -1)
-      error_handling("socket() error");
+	    error_handling("socket() error");
     memset(&serv_addr, 0 , sizeof(serv_addr));
     serv_addr.sin_family = AF_INET;
     serv_addr.sin_addr.s_addr = htonl(INADDR_ANY);
     serv_addr.sin_port = htons(atoi(argv[1]));
     if(bind(serv_sock, (struct sockaddr*) &serv_addr, sizeof(serv_addr))==-1)
-      error_handling("bind() error");
+	    error_handling("bind() error");
     if(listen(serv_sock,5) == -1)
 	    error_handling("listen() error");
-    if(clnt_sock<0){           
-      clnt_addr_size = sizeof(clnt_addr);
-      clnt_sock = accept(serv_sock, (struct sockaddr*)&clnt_addr, &clnt_addr_size);
+    if(clnt_sock<0){
+	    clnt_addr_size = sizeof(clnt_addr);
+	    clnt_sock = accept(serv_sock, (struct sockaddr*)&clnt_addr, &clnt_addr_size);
 	    if(clnt_sock == -1)
 		    error_handling("accept() error");   
     }
@@ -184,6 +184,6 @@ int main(int argc, char *argv[]) {
     close(clnt_sock);
     close(serv_sock);
     if (-1 == GPIOUnexport(PIN) || -1 == GPIOUnexport(PIN2))
-      return(7);
+	    return(7);
     return(0);
 }
